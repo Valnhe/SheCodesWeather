@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+    <script
+      src="https://kit.fontawesome.com/5a25cd7466.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container-app">
+      <div class="background">
+        <header>
+          <form>
+            <input type="search" placeholder="Enter city" id="search-text" />
+            <button type="submit" id="search-button">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </button>
+            <button type="submit" id="current-button">Current</button>
+          </form>
+        </header>
+      </div>
+
+      <div class="actual-weather">
+        <h1>
+          <i class="fa-solid fa-location-dot location-icon"></i>
+          <span id="city">Rome</span>
+        </h1>
+        <h2 id="country">Italy</h2>
+        <span id="day">Monday,</span>
+        <span id="date">16</span>
+        <span id="month">Jul</span>
+        <br />
+        <span id="hour">19:</span>
+        <span id="minutes">06</span>
+        <br />
+        <div class="actual-temperature" id="actual-temperature">00</div>
+        <div class="format">
+          <span id="celsius">°C</span>
+          <span id="farenheit">| °F</span>
+        </div>
+        <h3 id="description">Sunny</h3>
+
+        <section class="information">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <i class="fa-solid fa-droplet"></i>
+                <span id="humidity">1%</span>
+              </div>
+              <div class="col">
+                <i class="fa-solid fa-wind"></i>
+                <span id="wind">10 km/h</span>
+              </div>
+              <div class="col">
+                <i class="fa-solid fa-arrow-down"></i>
+                <span id="min">21°C</span>
+              </div>
+              <div class="col">
+                <i class="fa-solid fa-arrow-up"></i>
+                <span id="max">39°C</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="background">
+        <section class="forecast">
+          <p class="texto">Weekly forecast -</p>
+          <div class="container">
+            <div class="row">
+              <div class="col col-forecast">
+                <p class="day">TUE</p>
+                <i class="fa-solid fa-sun"></i>
+                <p class="temperature">24°C/42°C</p>
+              </div>
+              <div class="col col-forecast">
+                <p class="day">WED</p>
+                <i class="fa-solid fa-sun"></i>
+                <p class="temperature">24°C/39°C</p>
+              </div>
+              <div class="col col-forecast">
+                <p class="day">THU</p>
+                <i class="fa-solid fa-sun"></i>
+                <p class="temperature">24°C/37°C</p>
+              </div>
+              <div class="col col-forecast">
+                <p class="day">FRI</p>
+                <i class="fa-solid fa-sun"></i>
+                <p class="temperature">24°C/37°C</p>
+              </div>
+
+              <div class="col col-forecast">
+                <p class="day">SUN</p>
+                <i class="fa-solid fa-sun"></i>
+                <p class="temperature">24°C/36°C</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <br />
+        <p>- Coded by valnhe -</p>
+      </footer>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+</html>
