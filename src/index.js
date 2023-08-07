@@ -1,74 +1,37 @@
-//Feature #1
+function getDate(dt, timezone) {
+  const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
+  const utc_milliseconds = utc_seconds * 1000;
+  const local_date = new Date(utc_milliseconds).toUTCString();
+  let parts = local_date.split(" ");
+  let day = parts[0].slice(0, -1);
+  let date = parts[1];
+  let month = parts[2];
 
-function updateDate() {
-  let now = new Date();
-  let date = now.getDate(); //día (num)
-
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let day = now.getDay();
-  day = days[day];
-
-  let months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "Octuber",
-    "November",
-    "December",
-  ];
-  let month = now.getMonth();
-  month = months[month];
-
-  let hours = now.getHours();
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  let minutes = now.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-
-  let daySelector = document.querySelector("#day");
-  daySelector.innerHTML = day + ",";
-
-  let dateSelector = document.querySelector("#date");
-  dateSelector.innerHTML = date;
-
-  let monthSelector = document.querySelector("#month");
-  monthSelector.innerHTML = month;
-
-  let hourSelector = document.querySelector("#hour");
-  hourSelector.innerHTML = hours + ":";
-
-  let minutesSelector = document.querySelector("#minutes");
-  minutesSelector.innerHTML = minutes;
+  let formatDate = `${day}, ${date} ${month}`;
+  return formatDate;
 }
 
-let celsiusEvent = document.querySelector("#search-button");
-celsiusEvent.addEventListener("click", updateDate);
+function getTime(dt, timezone) {
+  const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
+  const utc_milliseconds = utc_seconds * 1000;
+  const local_date = new Date(utc_milliseconds).toUTCString();
+  let parts = local_date.split(" ");
+
+  let time = parts[4];
+  time = time.substr(0, 2);
+  time = `${time}:00`;
+  return time;
+}
 
 //Bonus feature
+////////////////////////////////////////////////////////////////////////
 function toCelsius() {
   let temperature = document.querySelector("#actual-temperature");
   temperature.innerHTML = "32°C";
 }
 
-let updateEvent = document.querySelector("#celsius");
-updateEvent.addEventListener("click", toCelsius);
+let celsiusEvent = document.querySelector("#celsius");
+celsiusEvent.addEventListener("click", toCelsius);
 
 function toFahrenheit() {
   let temperature = document.querySelector("#actual-temperature");
@@ -77,6 +40,7 @@ function toFahrenheit() {
 
 let fahrenheitEvent = document.querySelector("#farenheit");
 fahrenheitEvent.addEventListener("click", toFahrenheit);
+////////////////////////////////////////////////////////////////////////
 
 //Homework Week 5
 
@@ -95,7 +59,7 @@ function showData(response) {
   descriptionSelector.innerHTML = response.data.weather[0].main;
 
   let windSelector = document.querySelector("#wind");
-  windSelector.innerHTML = `${Math.round(response.data.wind.speed)} km/h`;
+  windSelector.innerHTML = `${Math.round(response.data.wind.speed * 3.6)} km/h`;
 
   let humiditySelector = document.querySelector("#humidity");
   humiditySelector.innerHTML = `${Math.round(response.data.main.humidity)}%`;
@@ -106,7 +70,11 @@ function showData(response) {
   let maxSelector = document.querySelector("#max");
   maxSelector.innerHTML = `${Math.round(response.data.main.temp_max)}°C`;
 
-  console.log(response);
+  let dateSelector = document.querySelector("#date");
+  dateSelector.innerHTML = getDate(response.data.dt, response.data.timezone);
+
+  let timeSelector = document.querySelector("#time");
+  timeSelector.innerHTML = getTime(response.data.dt, response.data.timezone);
 }
 
 function searchCity(event) {
@@ -118,9 +86,19 @@ function searchCity(event) {
   axios.get(apiUrl).then(showData);
 }
 
+//City by Default
+//////////////////////
+let apiKey = "8944afa6845bd7c413a687258d3211ef";
+let apiUrlDefault = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=${apiKey}`;
+axios.get(apiUrlDefault).then(showData);
+/////////////////////
+
+///Search a City
 let searchButton = document.querySelector("#search-button");
 searchButton.addEventListener("click", searchCity);
 
+//Current Position
+/////////////////////////////////////////
 function handlePosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
@@ -136,3 +114,4 @@ function searchPosition(event) {
 
 let currentButton = document.querySelector("#current-button");
 currentButton.addEventListener("click", searchPosition);
+/////////////////////////////////////////
