@@ -101,24 +101,40 @@ h2 {
 
 h3 {
   position: relative;
-  top: -7px;
+  top: -25px;
   font-weight: 500;
   font-size: 18px;
+}
+
+.conteiner-img-temp {
+  max-width: 100%;
+  display: inline;
+}
+
+.conteiner-img-temp img {
+  position: relative;
+  top: -16px;
+  left: 15px;
 }
 
 .actual-temperature {
   display: inline;
   font-size: 65px;
   font-weight: bolder;
-  padding-top: 8px;
 }
 
 .format {
+  color: gray;
   position: relative;
-  top: -15px;
+  top: -30px;
+  display: inline;
   font-size: 20px;
   font-weight: bolder;
   cursor: pointer;
+}
+
+.format-select {
+  color: black;
 }
 
 p {
@@ -134,6 +150,8 @@ p {
 }
 
 .information {
+  position: relative;
+  top: -15px;
   border: var(--main-color) 2px transparent;
   border-radius: 15px;
   margin: auto 50px;

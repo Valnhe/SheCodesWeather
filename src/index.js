@@ -27,7 +27,7 @@ function getTime(dt, timezone) {
 ////////////////////////////////////////////////////////////////////////
 function toCelsius() {
   let temperature = document.querySelector("#actual-temperature");
-  temperature.innerHTML = "32°C";
+  temperature.innerHTML = "32";
 }
 
 let celsiusEvent = document.querySelector("#celsius");
@@ -35,7 +35,7 @@ celsiusEvent.addEventListener("click", toCelsius);
 
 function toFahrenheit() {
   let temperature = document.querySelector("#actual-temperature");
-  temperature.innerHTML = "89,6°F";
+  temperature.innerHTML = "89,6";
 }
 
 let fahrenheitEvent = document.querySelector("#farenheit");
@@ -53,7 +53,7 @@ function showData(response) {
   countrySelector.innerHTML = `${response.data.sys.country}`;
 
   let temperatureSelector = document.querySelector("#actual-temperature");
-  temperatureSelector.innerHTML = `${Math.round(response.data.main.temp)}°C`;
+  temperatureSelector.innerHTML = `${Math.round(response.data.main.temp)}`;
 
   let descriptionSelector = document.querySelector("#description");
   descriptionSelector.innerHTML = response.data.weather[0].main;
@@ -75,6 +75,13 @@ function showData(response) {
 
   let timeSelector = document.querySelector("#time");
   timeSelector.innerHTML = getTime(response.data.dt, response.data.timezone);
+
+  let iconElement = document.querySelector("#icon");
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
 function searchCity(event) {
