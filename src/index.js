@@ -23,29 +23,13 @@ function getTime(dt, timezone) {
   return time;
 }
 
-//Bonus feature
-////////////////////////////////////////////////////////////////////////
-function toCelsius() {
-  let temperature = document.querySelector("#actual-temperature");
-  temperature.innerHTML = "32";
-}
-
-let celsiusEvent = document.querySelector("#celsius");
-celsiusEvent.addEventListener("click", toCelsius);
-
-function toFahrenheit() {
-  let temperature = document.querySelector("#actual-temperature");
-  temperature.innerHTML = "89,6";
-}
-
-let fahrenheitEvent = document.querySelector("#farenheit");
-fahrenheitEvent.addEventListener("click", toFahrenheit);
-////////////////////////////////////////////////////////////////////////
-
 //Homework Week 5
 
 //Search button
 function showData(response) {
+  document.getElementById("celsius").classList.add("format-select");
+  document.getElementById("farenheit").classList.remove("format-select");
+
   let citySelector = document.querySelector("#city");
   citySelector.innerHTML = `${response.data.name}`;
 
@@ -54,6 +38,7 @@ function showData(response) {
 
   let temperatureSelector = document.querySelector("#actual-temperature");
   temperatureSelector.innerHTML = `${Math.round(response.data.main.temp)}`;
+  celsiusTemperature = response.data.main.temp;
 
   let descriptionSelector = document.querySelector("#description");
   descriptionSelector.innerHTML = response.data.weather[0].main;
@@ -93,16 +78,15 @@ function searchCity(event) {
   axios.get(apiUrl).then(showData);
 }
 
-//City by Default
-//////////////////////
-let apiKey = "8944afa6845bd7c413a687258d3211ef";
-let apiUrlDefault = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=${apiKey}`;
-axios.get(apiUrlDefault).then(showData);
-/////////////////////
-
 ///Search a City
 let searchButton = document.querySelector("#search-button");
 searchButton.addEventListener("click", searchCity);
+
+//City by Default
+//////////////////////
+let apiUrlDefault = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=8944afa6845bd7c413a687258d3211ef`;
+axios.get(apiUrlDefault).then(showData);
+/////////////////////
 
 //Current Position
 /////////////////////////////////////////
@@ -122,3 +106,31 @@ function searchPosition(event) {
 let currentButton = document.querySelector("#current-button");
 currentButton.addEventListener("click", searchPosition);
 /////////////////////////////////////////
+
+//Bonus feature
+
+let celsiusTemperature = null;
+let fahrenheitTemperature = null;
+
+////////////////////////////////////////////////////////////////////////
+function toCelsius() {
+  document.getElementById("celsius").classList.add("format-select");
+  document.getElementById("farenheit").classList.remove("format-select");
+  let temperature = document.querySelector("#actual-temperature");
+  temperature.innerHTML = Math.round(celsiusTemperature);
+}
+
+let celsiusEvent = document.querySelector("#celsius");
+celsiusEvent.addEventListener("click", toCelsius);
+
+function toFahrenheit() {
+  document.getElementById("farenheit").classList.add("format-select");
+  document.getElementById("celsius").classList.remove("format-select");
+  let temperature = document.querySelector("#actual-temperature");
+  fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+  temperature.innerHTML = Math.round(fahrenheitTemperature);
+}
+
+let fahrenheitEvent = document.querySelector("#farenheit");
+fahrenheitEvent.addEventListener("click", toFahrenheit);
+////////////////////////////////////////////////////////////////////////
