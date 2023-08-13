@@ -32,6 +32,7 @@ function formatDay(timestamp) {
 }
 
 function displayForecast(response) {
+  console.log(response);
   let forecast = response.data.daily;
   forecast = forecast.slice(0, 5);
 
