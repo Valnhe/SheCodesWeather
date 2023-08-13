@@ -23,7 +23,26 @@ function getTime(dt, timezone) {
   return time;
 }
 
-//Homework Week 5
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+  let days = ["Mar", "Mie", "Jue", "Vie", "Sab"];
+
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-2">
+              <p class="weather-forecast-date">"${day}"</p>
+              <i class="fa-solid fa-sun"></i>
+              <div class="weather-forecast-temperature">
+                <span class="weather-forecast-temp-max">18°</span>
+                <span class="weather-forecast-temp-min">15°</span>
+              </div>
+            </div>`;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
 
 //Search button
 function showData(response) {
@@ -86,6 +105,7 @@ searchButton.addEventListener("click", searchCity);
 //////////////////////
 let apiUrlDefault = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=8944afa6845bd7c413a687258d3211ef`;
 axios.get(apiUrlDefault).then(showData);
+displayForecast();
 /////////////////////
 
 //Current Position
