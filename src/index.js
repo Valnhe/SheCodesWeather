@@ -23,25 +23,54 @@ function getTime(dt, timezone) {
   return time;
 }
 
-function displayForecast() {
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  forecast = forecast.slice(0, 5);
+  console.log(forecast);
+
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
   let days = ["Mar", "Mie", "Jue", "Vie", "Sab"];
 
-  days.forEach(function (day) {
+  forecast.forEach(function (forecastDay) {
     forecastHTML =
       forecastHTML +
       `<div class="col-2">
-              <p class="weather-forecast-date">"${day}"</p>
-              <i class="fa-solid fa-sun"></i>
+              <p class="weather-forecast-date">${formatDay(forecastDay.dt)}</p>
+              <img
+            src="http://openweathermap.org/img/wn/${
+              forecastDay.weather[0].icon
+            }@2x.png"
+            alt="forecast"
+            width="70"
+            id="icon-forecast"
+          />
               <div class="weather-forecast-temperature">
-                <span class="weather-forecast-temp-max">18°</span>
-                <span class="weather-forecast-temp-min">15°</span>
+                <span class="weather-forecast-temp-max">${Math.round(
+                  forecastDay.temp.max
+                )}°</span>
+                <span class="weather-forecast-temp-min">${Math.round(
+                  forecastDay.temp.min
+                )}°</span>
               </div>
             </div>`;
   });
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coordinates) {
+  let apiKey = "8944afa6845bd7c413a687258d3211ef";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=${apiKey}`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 //Search button
@@ -86,6 +115,8 @@ function showData(response) {
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   iconElement.setAttribute("alt", response.data.weather[0].description);
+
+  getForecast(response.data.coord);
 }
 
 function searchCity(event) {
@@ -105,7 +136,6 @@ searchButton.addEventListener("click", searchCity);
 //////////////////////
 let apiUrlDefault = `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=8944afa6845bd7c413a687258d3211ef`;
 axios.get(apiUrlDefault).then(showData);
-displayForecast();
 /////////////////////
 
 //Current Position
